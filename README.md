@@ -29,7 +29,7 @@ Run: python3.5 Scraper.py [url] on terminal
 	
 	Example: 
 	
-cd webcrawler
+cd [folder where these file resides]
 
 python3.5 Scraper.py https://www.brightedge.com/
 
