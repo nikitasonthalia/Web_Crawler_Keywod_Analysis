@@ -28,7 +28,11 @@ class LinkParser(HTMLParser):
     def getLinks(self, url):
         self.links = []
         self.baseUrl = url
-        response = requests.get(url)
+        try:
+            response = requests.get(url)
+        except:
+            print("URL is not proper. Not able to get requests response: Try again!")
+            sys.exit()
         if  'text/html' in response.headers['Content-Type']:
             htmlBytes = response.text
             htmlString = htmlBytes
@@ -75,7 +79,7 @@ def getingoreword():
         for line in f.readlines():
             words.append(line.strip('\n'))
         return words
-    except StopIteration as e:
+    except (OSError, IOError,StopIteration) as e:
         print(e)
         sys.exit()
 
@@ -109,7 +113,7 @@ def myspider(url):
     try:
         parser=LinkParser()
         data, links = parser.getLinks(url)
-    except ValueError as e :
+    except (ValueError,IOError) as e :
         print(e)
         sys.exit()
     stopwords = getingoreword()
@@ -153,7 +157,7 @@ try:
     finishtime= int(round(time.time()))
     print("Total time (second ) taken." , str(finishtime-starttime))
 
-except ValueError as e :
+except (ValueError,IOError) as e :
     print(e)
     sys.exit()
 
